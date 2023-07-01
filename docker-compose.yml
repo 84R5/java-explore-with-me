@@ -23,27 +23,27 @@ services:
       - POSTGRES_USER=stats
       - POSTGRES_PASSWORD=stats
 
-  ##ewm-db:
-  ##  image: postgres:14-alpine
-  ##  container_name: db_ewm_container
-  ##  ports:
-  ##    - "6545:5434"
-  ##  depends_on:
-  ##    - stats-server
-  ##  environment:
-  ##    - POSTGRES_DB=main
-  ##    - POSTGRES_USER=main
-  ##    - POSTGRES_PASSWORD=main
+  ewm-db:
+    image: postgres:14-alpine
+    container_name: db_ewm_container
+    ports:
+      - "6545:5434"
+    depends_on:
+      - stats-server
+    environment:
+      - POSTGRES_DB=main
+      - POSTGRES_USER=main
+      - POSTGRES_PASSWORD=main
 
-  ##ewm-service:
-  ##  build: ./ewm-main
-  ##  image: ewm_image
-  ##  container_name: ewm_container
-  ##  ports:
-  ##    - "8080:8080"
-  ##  depends_on:
-  ##    - ewm-db
-  ##  environment:
-  ##    - MAIN_STRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5434/main
-  ##    - MAIN_POSTGRES_USER=main
-  ##    - MAIN_POSTGRES_PASSWORD=main
+  ewm-service:
+    build: ./ewm-main
+    image: ewm_image
+    container_name: ewm_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ewm-db
+    environment:
+      - MAIN_STRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5434/main
+      - MAIN_POSTGRES_USER=main
+      - MAIN_POSTGRES_PASSWORD=main
