@@ -27,6 +27,9 @@
     <modules>
         <module>ewm-main</module>
         <module>ewm-stats-service</module>
+        <module>ewm-stats-service/client</module>
+        <module>ewm-stats-service/dto</module>
+        <module>ewm-stats-service/server</module>
     </modules>
 
     <build>
