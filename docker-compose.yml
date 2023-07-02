@@ -11,7 +11,7 @@ services:
       - POSTGRES_PASSWORD=stats
 
   stats-server:
-    build: ./ewm-stats/server
+    build: ./ewm-stats-service/server
     image: stats_server_image
     container_name: stats_server_container
     ports:
@@ -24,7 +24,7 @@ services:
       - POSTGRES_PASSWORD=stats
 
   ewm-service:
-    build: ewm-service
+    build: ./ewm-main
     container_name: ewm-service-container
     ports:
       - "8080:8080"
