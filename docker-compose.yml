@@ -12,7 +12,7 @@ services:
 
   stats-server:
     build:
-      context: ./stats/stats-server
+      context: ./ewm-stats-server/server
       dockerfile: Dockerfile
     image: stats-server-image
     container_name: stats_server_container
