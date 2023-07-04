@@ -10,7 +10,6 @@ import ru.practicum.mapper.HitMapper;
 import ru.practicum.mapper.HitStatMapper;
 import ru.practicum.model.Hit;
 import ru.practicum.repository.HitRepository;
-import ru.practicum.service.StatsService;
 
 import java.time.LocalDateTime;
 import java.util.List;

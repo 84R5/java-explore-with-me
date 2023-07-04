@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.main.client.BaseClient;
-import ru.practicum.main.dto.StatsDtoRequest;
+import ru.practicum.client.BaseClient;
+import ru.practicum.dto.StatsDtoRequest;
 
 import java.util.List;
 import java.util.Map;

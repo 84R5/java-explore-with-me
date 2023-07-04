@@ -2,6 +2,7 @@ package ru.practicum.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -9,8 +10,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StatsDtoResponse {
 
-        String app;
-        String uri;
-        Long hits;
+    String app;
+    String uri;
+    Long hits;
 
 }
