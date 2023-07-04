@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.StatsDtoRequest;
-import ru.practicum.dto.StatsDtoResponse;
 import ru.practicum.mapper.HitMapper;
 import ru.practicum.model.Hit;
+import ru.practicum.model.HitStat;
 import ru.practicum.repository.HitRepository;
 
 import java.time.LocalDateTime;
@@ -31,7 +31,7 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public List<StatsDtoResponse> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public List<HitStat> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
 
         if (unique) {
             log.info("Статистика уникальных просмотров получена");
