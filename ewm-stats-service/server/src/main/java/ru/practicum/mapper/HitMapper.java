@@ -1,6 +1,5 @@
 package ru.practicum.mapper;
 
-
 import lombok.experimental.UtilityClass;
 import ru.practicum.dto.StatsDtoRequest;
 import ru.practicum.model.Hit;

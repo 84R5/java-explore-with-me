@@ -1,6 +1,7 @@
 package ru.practicum.service;
 
 import ru.practicum.dto.StatsDtoRequest;
+import ru.practicum.dto.StatsDtoResponse;
 import ru.practicum.model.Hit;
 import ru.practicum.model.HitStat;
 
@@ -11,7 +12,7 @@ public interface StatsService {
 
     Hit create(StatsDtoRequest dtoRequest);
 
-    List<HitStat> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique);
+    List<StatsDtoResponse> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique);
 
 }
 

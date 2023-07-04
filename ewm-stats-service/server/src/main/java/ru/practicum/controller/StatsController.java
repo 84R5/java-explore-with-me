@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.StatsDtoRequest;
+import ru.practicum.dto.StatsDtoResponse;
 import ru.practicum.model.Hit;
-import ru.practicum.model.HitStat;
 import ru.practicum.service.StatsService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +34,7 @@ public class StatsController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<List<HitStat>> getStats(
+    public ResponseEntity<List<StatsDtoResponse>> getStats(
             @RequestParam(name = "start")
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
             @RequestParam(name = "end")
