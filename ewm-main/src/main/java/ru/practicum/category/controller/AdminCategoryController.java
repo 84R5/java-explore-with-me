@@ -1,6 +1,8 @@
 package ru.practicum.category.controller;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,31 +15,42 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("admin/categories")
 @RequiredArgsConstructor
+@RequestMapping("/admin/categories")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AdminCategoryController {
 
-    private final CategoryService categoryService;
+    CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<CategoryDtoResponse> create(@Valid @RequestBody CategoryDtoRequest dto) {
-        log.debug("POST add() with {}", dto);
-        CategoryDtoResponse body = categoryService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(body);
+    public ResponseEntity<CategoryDtoResponse> create(
+            @RequestBody @Valid CategoryDtoRequest dto) {
+
+        log.debug("POST create() with {}", dto);
+        CategoryDtoResponse category = categoryService.create(dto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
     @PatchMapping("/{catId}")
-    public ResponseEntity<CategoryDtoResponse> update(@Valid @RequestBody CategoryDtoRequest dto,
-                                              @PathVariable Long catId) {
+    public ResponseEntity<CategoryDtoResponse> update(
+            @PathVariable Long catId,
+            @RequestBody @Valid CategoryDtoRequest dto) {
+
         log.debug("PATCH update() with {}", dto);
-        CategoryDtoResponse body = categoryService.update(catId, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(body);
+        CategoryDtoResponse category = categoryService.update(catId, dto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
     @DeleteMapping("/{catId}")
-    public ResponseEntity<CategoryDtoResponse> remove(@PathVariable Long catId) {
+    public ResponseEntity<CategoryDtoResponse> remove(
+            @PathVariable Long catId) {
+
         log.debug("DELETE remove() with userId: {}", catId);
         categoryService.remove(catId);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

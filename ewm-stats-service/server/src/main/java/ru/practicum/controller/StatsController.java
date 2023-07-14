@@ -35,12 +35,12 @@ public class StatsController {
 
     @GetMapping("/stats")
     public ResponseEntity<List<StatsDtoResponse>> getStats(
-            @RequestParam(name = "start")
+            @RequestParam
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-            @RequestParam(name = "end")
+            @RequestParam
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
-            @RequestParam(name = "uris", required = false) List<String> uris,
-            @RequestParam(name = "unique", defaultValue = "false") Boolean unique,
+            @RequestParam(required = false) List<String> uris,
+            @RequestParam(defaultValue = "false") Boolean unique,
             HttpServletRequest request) {
         validateTimeParam(start, end);
         log.info("Запрос к эндпоинту '{}' на получение статистики", request.getRequestURI());

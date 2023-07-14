@@ -1,27 +1,32 @@
 package ru.practicum.user.model;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     Long id;
 
-    @Column(name = "user_name", nullable = false)
+    @NotBlank(message = "User name can't be Blank")
+    @Column(nullable = false)
     String name;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @NotNull(message = "User email can't be Null")
+    @Email(message = "Invalid email format")
+    @Column(nullable = false, unique = true)
     String email;
 }

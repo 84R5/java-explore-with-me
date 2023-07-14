@@ -1,15 +1,19 @@
 package ru.practicum.user.dto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Builder
-@Value
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDtoResponse {
 
     Long id;
-
     String name;
-
     String email;
+
 }

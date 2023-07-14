@@ -1,19 +1,19 @@
 package ru.practicum.category.service;
 
-import org.springframework.data.crossstore.ChangeSetPersister;
 import ru.practicum.category.dto.CategoryDtoRequest;
 import ru.practicum.category.dto.CategoryDtoResponse;
 
 import java.util.List;
 
 public interface CategoryService {
-    CategoryDtoResponse create(CategoryDtoRequest categoryDtoRequest);
+    List<CategoryDtoResponse> findAll(Integer from, Integer size);
 
-    CategoryDtoResponse update(Long catId, CategoryDtoRequest categoryDtoRequest);
+    CategoryDtoResponse findById(Long categoryId);
+
+    CategoryDtoResponse create(CategoryDtoRequest dto);
+
+    CategoryDtoResponse update(Long categoryId, CategoryDtoRequest dto);
 
     void remove(Long catId);
 
-    List<CategoryDtoResponse> findAll(Integer from, Integer size);
-
-    CategoryDtoResponse findById(Long catId);
 }

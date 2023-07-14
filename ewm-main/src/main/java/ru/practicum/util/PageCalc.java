@@ -16,4 +16,12 @@ public class PageCalc {
         return Pageable.unpaged();
     }
 
+    public Pageable getPage(Integer from, Integer size, Sort sort) {
+        if (from != null && size != null) {
+            int pageNumber = (int) Math.ceil((double) from / size);
+            return PageRequest.of(pageNumber, size, sort);
+        }
+        return Pageable.unpaged();
+    }
+
 }

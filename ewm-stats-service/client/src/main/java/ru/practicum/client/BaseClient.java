@@ -1,19 +1,21 @@
 package ru.practicum.client;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
 
-@Service
-@RequiredArgsConstructor
+//@Service
+//@RequiredArgsConstructor
 public class BaseClient {
     protected final RestTemplate restTemplate;
+
+    public BaseClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     private static ResponseEntity<Object> prepareGatewayResponse(ResponseEntity<Object> response) {
         if (response.getStatusCode().is2xxSuccessful()) {
