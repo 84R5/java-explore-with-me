@@ -11,7 +11,7 @@ services:
           - POSTGRES_PASSWORD=stats
 
       stats-server:
-        build: ./ewm-stats-service/server
+        build: ewm-stats-service/server
         image: stats_server_image
         container_name: stats_server_container
         ports:
@@ -19,15 +19,16 @@ services:
         depends_on:
           - stats-db
         environment:
+          - SERVER_PORT=9090
           - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats-db
-          - POSTGRES_USER=stats
-          - POSTGRES_PASSWORD=stats
+          - SPRING_DATASOURCE_USER=stats
+          - SPRING_DATASOURCE_PASSWORD=stats
 
       ewm-db:
         image: postgres:15-alpine
         container_name: db_ewm_container
         ports:
-          - "6545:5434"
+          - "6545:5432"
         environment:
           - POSTGRES_DB=main
           - POSTGRES_USER=main
