@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS events
     initiator_id        BIGINT                                  NOT NULL,
     locations_id        BIGINT                                  NOT NULL,
     paid                BOOL                                    NOT NULL,
-    participant_limit   BIGINT,
+    participant_limit   INTEGER,
     published_on        TIMESTAMP WITHOUT TIME ZONE,
     request_moderation  BOOL,
     state               VARCHAR(32)                             NOT NULL,
