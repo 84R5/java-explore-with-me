@@ -28,7 +28,7 @@ public class StatsClient extends BaseClient {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    public StatsClient(@Value("http://localhost:9090") String serverUrl, RestTemplateBuilder builder) {
+    public StatsClient(@Value("${stats-service.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
