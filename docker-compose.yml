@@ -7,8 +7,8 @@ services:
           - "6541:5432"
         environment:
           - POSTGRES_DB=stats-db
-          - POSTGRES_USER=root
-          - POSTGRES_PASSWORD=root
+          - POSTGRES_USER=stats
+          - POSTGRES_PASSWORD=stats
 
       stats-server:
         build: ./ewm-stats-service/server
@@ -20,8 +20,8 @@ services:
           - stats-db
         environment:
           - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats-db
-          - POSTGRES_USER=root
-          - POSTGRES_PASSWORD=root
+          - POSTGRES_USER=stats
+          - POSTGRES_PASSWORD=stats
 
       ewm-db:
         image: postgres:15-alpine
