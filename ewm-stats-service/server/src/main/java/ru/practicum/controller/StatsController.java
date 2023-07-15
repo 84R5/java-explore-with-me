@@ -49,7 +49,7 @@ public class StatsController {
     }
 
     private void validateTimeParam(LocalDateTime s, LocalDateTime e) {
-        if (s == null || e == null ||  s.isBefore(LocalDateTime.now()) || e.isBefore(s)) {
+        if (s == null || e == null || e.isBefore(s)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not valid time start or end");
         }
     }
