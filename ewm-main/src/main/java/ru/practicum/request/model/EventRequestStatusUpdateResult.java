@@ -15,8 +15,9 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EventRequestStatusUpdateResult {
 
-    List<ParticipationRequestDto> confirmedRequest;
-    List<ParticipationRequestDto> rejectedRequest;
+    List<ParticipationRequestDto> confirmedRequests;
+    List<ParticipationRequestDto> rejectedRequests;
+
 
 }
 
