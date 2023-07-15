@@ -126,7 +126,7 @@ public class EventMapper {
                         e.getPublishedOn() : LocalDateTime.now())
                 .state(dto.getStateAction() != null ?
                         dto.getStateAction().equals(StatePrivate.SEND_TO_REVIEW) ?
-                                EventState.PENDING :  EventState.CANCELED : e.getState())
+                                EventState.PENDING : EventState.CANCELED : e.getState())
                 .initiator(e.getInitiator())
                 .createdOn(e.getCreatedOn())
                 .title(dto.getTitle() != null ? dto.getTitle() : e.getTitle())

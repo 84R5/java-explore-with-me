@@ -58,8 +58,8 @@ public class StatsClient extends BaseClient {
                 "uris", String.join(",", uris),
                 "unique", unique
         );
-        if(end.isBefore(start)){
-               throw new NumberFormatException("Дата старта должна быть раньше даты окончания");
+        if (end.isBefore(start)) {
+            throw new NumberFormatException("Дата старта должна быть раньше даты окончания");
         }
 
         ResponseEntity<Object> objects = get("/stats?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
