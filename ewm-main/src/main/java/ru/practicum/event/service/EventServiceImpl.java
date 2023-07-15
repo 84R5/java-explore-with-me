@@ -212,6 +212,7 @@ public class EventServiceImpl implements EventService {
 
             event.setViews(currentStat != null ? currentStat.getHits() : 0L);
         }
+        eventRepository.saveAll(events);
     }
 
 }
