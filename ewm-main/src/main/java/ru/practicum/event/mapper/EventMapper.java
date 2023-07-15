@@ -71,6 +71,7 @@ public class EventMapper {
     public static EventShortDto toEventShortDto(Event event) {
         return EventShortDto.builder()
                 .id(event.getId())
+                .eventDate(event.getEventDate())
                 .annotation(event.getAnnotation())
                 .category(CategoryMapper.categoryToCategoryDtoResponse(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
@@ -84,14 +85,6 @@ public class EventMapper {
 
     public static Event updateEventFromAdmin(UpdateEventAdminRequest dto, Event e) {
         return Event.builder()
-
-
-
-
-
-
-
-
                 .id(e.getId())
                 .confirmedRequests(e.getConfirmedRequests())
                 .category(dto.getCategory() != null ?

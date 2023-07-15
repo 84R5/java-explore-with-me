@@ -27,7 +27,7 @@ public class Event {
     String annotation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "categories")
     Category category;
 
     @Column(name = "confirmed_request", nullable = false)
