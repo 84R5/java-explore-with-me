@@ -20,6 +20,7 @@ import ru.practicum.model.StatsClient;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,9 +36,9 @@ public class PublicEventController {
 
     @GetMapping
     public ResponseEntity<List<EventShortDto>> getEvents(
-            @RequestParam(value = "text", required = false) String text,
+            @RequestParam(value = "text", required = false) @Size(min = 1, max = 7000) String text,
             @RequestParam(value = "categories", required = false) List<Long> categoryIds,
-            @RequestParam(value = "paid", defaultValue = "false") Boolean paid,
+            @RequestParam(value = "paid",required = false) Boolean paid,
             @RequestParam(value = "rangeStart", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
             @RequestParam(value = "rangeEnd", required = false)
@@ -66,7 +67,7 @@ public class PublicEventController {
 
         EventSort eventSort = sort != null ?
                 EventSort.by(sort) : EventSort.EVENT_DATE;
-        sendToStats(request);
+        //sendToStats(request);
         List<EventShortDto> eventShortDtoList = eventService.adminFindAllByFilter(filter, eventSort, from, size);
         request.setAttribute("app_name", "main application");
 
@@ -80,7 +81,7 @@ public class PublicEventController {
 
         log.debug("GET publicFindById() with eventId: {}", eventId);
         request.setAttribute("app_name", "main application");
-        sendToStats(request);
+        //sendToStats(request);
         EventFullDto eventFullDto = eventService.publicFindById(eventId);
 
         return ResponseEntity.status(HttpStatus.OK).body(eventFullDto);
