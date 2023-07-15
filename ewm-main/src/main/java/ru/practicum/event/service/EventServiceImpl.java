@@ -151,7 +151,7 @@ public class EventServiceImpl implements EventService {
         BooleanBuilder booleanBuilder = makeBuilder(filter);
         Page<Event> page = eventRepository.findAll(booleanBuilder, PageCalc.getPage(from, size));
 
-        //setViews(page.getContent());
+        setViews(page.getContent());
         return page.getContent().stream().map(EventMapper::toEventFullDto).collect(Collectors.toList());
     }
 
@@ -163,7 +163,7 @@ public class EventServiceImpl implements EventService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found.");
         }
 
-        //setViews(List.of(event));
+        setViews(List.of(event));
         return EventMapper.toEventFullDto(event);
     }
 
