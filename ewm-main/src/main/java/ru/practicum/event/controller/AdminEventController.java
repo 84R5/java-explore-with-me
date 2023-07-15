@@ -33,7 +33,7 @@ public class AdminEventController {
     public ResponseEntity<List<EventFullDto>> searchEvents(
             @RequestParam(value = "users", required = false) List<Long> userIds,
             @RequestParam(value = "states", required = false) List<EventState> states,
-            @RequestParam(value = "category", required = false) List<Long> categoryIds,
+            @RequestParam(value = "categories", required = false) List<Long> categoryIds,
             @RequestParam(value = "rangeStart", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
             @RequestParam(value = "rangeEnd", required = false)
