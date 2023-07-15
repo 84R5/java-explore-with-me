@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.dto.StatsDtoRequest;
 import ru.practicum.dto.StatsDtoResponse;
 import ru.practicum.model.Hit;
@@ -48,8 +49,8 @@ public class StatsController {
     }
 
     private void validateTimeParam(LocalDateTime s, LocalDateTime e) {
-        if (s.isAfter(e)) {
-            throw new RuntimeException();
+        if (s.isBefore(LocalDateTime.now()) || e.isBefore(s)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not valid time start or end");
         }
     }
 
