@@ -181,7 +181,7 @@ public class EventServiceImpl implements EventService {
                 .and(!isNullOrEmpty.test(filter.getStates()) ? qEvent.state.in(filter.getStates()) : null)
                 .and(!isNullOrEmpty.test(filter.getCategoryIds()) ? qEvent.category.id.in(filter.getCategoryIds()) : null)
                 .and(!isNullOrEmpty.test(filter.getRangeStart()) ? qEvent.eventDate.after(filter.getRangeStart()) : null)
-                //.and(!isNullOrEmpty.test(filter.getRangeEnd()) ? qEvent.eventDate.before(filter.getRangeEnd()) : null)
+                .and(!isNullOrEmpty.test(filter.getRangeEnd()) ? qEvent.eventDate.before(filter.getRangeEnd()) : null)
                 .and(!isNullOrEmpty.test(filter.getPaid()) ? qEvent.paid.eq(filter.getPaid()) : null)
                 .and(!isNullOrEmpty.test(filter.getText()) ? (qEvent.annotation.likeIgnoreCase(filter.getText())
                         .or(qEvent.description.likeIgnoreCase(filter.getText()))) : null)
