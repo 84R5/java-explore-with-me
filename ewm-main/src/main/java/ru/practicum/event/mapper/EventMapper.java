@@ -119,7 +119,7 @@ public class EventMapper {
                 .confirmedRequests(e.getConfirmedRequests())
                 .category(dto.getCategory() != null ?
                         Category.builder().id(dto.getCategory()).build() : e.getCategory())
-                .publishedOn(dto.getRequestModeration()!= null && dto.getRequestModeration() ?
+                .publishedOn(dto.getRequestModeration() != null && dto.getRequestModeration() ?
                         e.getPublishedOn() : LocalDateTime.now())
                 .state(dto.getStateAction() != null ?
                         dto.getStateAction().equals(StatePrivate.SEND_TO_REVIEW) ?
