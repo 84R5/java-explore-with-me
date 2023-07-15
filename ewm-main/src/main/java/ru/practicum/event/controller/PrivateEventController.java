@@ -82,24 +82,24 @@ public class PrivateEventController {
 
     @GetMapping("/{eventId}/requests")
     public ResponseEntity<List<ParticipationRequestDto>> findRequestsByEventId(
-            @PathVariable("userId") Long initiatorId,
-            @PathVariable("eventId") Long eventId) {
+            @PathVariable Long userId,
+            @PathVariable Long eventId) {
 
-        log.debug("GET findRequestsByEventId() with initiatorId: {}, eventId: {}", initiatorId, eventId);
-        List<ParticipationRequestDto> requestDtoList = requestService.findRequestsByEventId(initiatorId, eventId);
+        log.debug("GET findRequestsByEventId() with initiatorId: {}, eventId: {}", userId, eventId);
+        List<ParticipationRequestDto> requestDtoList = requestService.findRequestsByEventId(userId, eventId);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestDtoList);
     }
 
     @PatchMapping("/{eventId}/requests")
-    public ResponseEntity<EventRequestStatusUpdateResult> updateStatusRequests(
-            @PathVariable("userId") Long initiatorId,
-            @PathVariable("eventId") Long eventId,
+    public EventRequestStatusUpdateResult updateStatusRequests(
+            @PathVariable Long userId,
+            @PathVariable Long eventId,
             @RequestBody EventRequestStatusUpdateRequest dto) {
 
-        log.debug("PATCH updateRequestState() with initiatorId: {}, eventId: {}, dto: {}", initiatorId, eventId, dto);
-        EventRequestStatusUpdateResult updateResult = requestService.updateStatusRequests(initiatorId, eventId, dto);
+        log.debug("PATCH updateRequestState() with initiatorId: {}, eventId: {}, dto: {}", userId, eventId, dto);
+        EventRequestStatusUpdateResult updateResult = requestService.updateStatusRequests(userId, eventId, dto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(updateResult);
+        return updateResult;
     }
 }
