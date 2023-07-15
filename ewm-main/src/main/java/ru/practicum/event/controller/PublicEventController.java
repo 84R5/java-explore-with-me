@@ -53,6 +53,8 @@ public class PublicEventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "rangeEnd cannot be earlier than the rangeStart");
         }
 
+        sendToStats(request);
+
         SearchFilter filter = SearchFilter.builder()
                 .categoryIds(categoryIds)
                 .rangeStart(rangeStart != null ?
