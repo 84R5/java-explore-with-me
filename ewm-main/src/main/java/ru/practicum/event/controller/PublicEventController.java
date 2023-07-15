@@ -67,7 +67,7 @@ public class PublicEventController {
 
         EventSort eventSort = sort != null ?
                 EventSort.by(sort) : EventSort.EVENT_DATE;
-        //sendToStats(request);
+        sendToStats(request);
         List<EventShortDto> eventShortDtoList = eventService.adminFindAllByFilter(filter, eventSort, from, size);
         request.setAttribute("app_name", "main application");
 
@@ -81,7 +81,7 @@ public class PublicEventController {
 
         log.debug("GET publicFindById() with eventId: {}", eventId);
         request.setAttribute("app_name", "main application");
-        //sendToStats(request);
+        sendToStats(request);
         EventFullDto eventFullDto = eventService.publicFindById(eventId);
 
         return ResponseEntity.status(HttpStatus.OK).body(eventFullDto);
