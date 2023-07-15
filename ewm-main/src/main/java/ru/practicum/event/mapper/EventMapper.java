@@ -84,11 +84,21 @@ public class EventMapper {
 
     public static Event updateEventFromAdmin(UpdateEventAdminRequest dto, Event e) {
         return Event.builder()
+
+
+
+
+
+
+
+
                 .id(e.getId())
                 .confirmedRequests(e.getConfirmedRequests())
                 .category(dto.getCategory() != null ?
                         Category.builder().id(dto.getCategory()).build() : e.getCategory())
-                .publishedOn(e.getRequestModeration() && dto.getStateAction().equals(AdminActionState.PUBLISH_EVENT) ?
+                .publishedOn(dto.getStateAction() != null &&
+                        e.getRequestModeration().equals(true) &&
+                        dto.getStateAction().equals(AdminActionState.PUBLISH_EVENT) ?
                         LocalDateTime.now() : e.getPublishedOn())
                 .state(dto.getStateAction() != null ?
                         dto.getStateAction().equals(AdminActionState.PUBLISH_EVENT) ?
