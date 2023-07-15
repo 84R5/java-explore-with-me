@@ -22,6 +22,7 @@ public class EventMapper {
                 .category(Category.builder().id(request.getCategory()).build())
                 .eventDate(request.getEventDate())
                 .location(LocationMapper.toLocation(request.getLocation()))
+                .publishedOn(!request.getRequestModeration() ? LocalDateTime.now() : null)
                 .paid(request.getPaid())
                 .confirmedRequests(0)
                 .participantLimit(request.getParticipantLimit())
@@ -87,7 +88,8 @@ public class EventMapper {
                 .confirmedRequests(e.getConfirmedRequests())
                 .category(dto.getCategory() != null ?
                         Category.builder().id(dto.getCategory()).build() : e.getCategory())
-                .publishedOn(e.getPublishedOn())
+                .publishedOn(e.getRequestModeration() && dto.getStateAction().equals(AdminActionState.PUBLISH_EVENT) ?
+                        LocalDateTime.now() : e.getPublishedOn())
                 .state(dto.getStateAction() != null ?
                         dto.getStateAction().equals(AdminActionState.PUBLISH_EVENT) ?
                                 EventState.PUBLISHED : EventState.CANCELED : e.getState())
@@ -117,10 +119,10 @@ public class EventMapper {
                 .confirmedRequests(e.getConfirmedRequests())
                 .category(dto.getCategory() != null ?
                         Category.builder().id(dto.getCategory()).build() : e.getCategory())
-                .publishedOn(e.getPublishedOn())
+                .publishedOn(dto.getRequestModeration() ? e.getPublishedOn() : LocalDateTime.now())
                 .state(dto.getStateAction() != null ?
                         dto.getStateAction().equals(StatePrivate.SEND_TO_REVIEW) ?
-                                EventState.PENDING : EventState.CANCELED : e.getState())
+                                EventState.PENDING :  EventState.CANCELED : e.getState())
                 .initiator(e.getInitiator())
                 .createdOn(e.getCreatedOn())
                 .title(dto.getTitle() != null ? dto.getTitle() : e.getTitle())
