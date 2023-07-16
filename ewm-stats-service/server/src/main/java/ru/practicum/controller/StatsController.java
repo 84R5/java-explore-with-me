@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.dto.StatsDtoRequest;
 import ru.practicum.dto.StatsDtoResponse;
 import ru.practicum.model.Hit;
@@ -35,12 +36,12 @@ public class StatsController {
 
     @GetMapping("/stats")
     public ResponseEntity<List<StatsDtoResponse>> getStats(
-            @RequestParam(name = "start")
+            @RequestParam(required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-            @RequestParam(name = "end")
+            @RequestParam(required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
-            @RequestParam(name = "uris", required = false) List<String> uris,
-            @RequestParam(name = "unique", defaultValue = "false") Boolean unique,
+            @RequestParam(defaultValue = "") List<String> uris,
+            @RequestParam(defaultValue = "false") Boolean unique,
             HttpServletRequest request) {
         validateTimeParam(start, end);
         log.info("Запрос к эндпоинту '{}' на получение статистики", request.getRequestURI());
@@ -48,8 +49,8 @@ public class StatsController {
     }
 
     private void validateTimeParam(LocalDateTime s, LocalDateTime e) {
-        if (s.isAfter(e)) {
-            throw new RuntimeException();
+        if (s == null || e == null || e.isBefore(s)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not valid time start or end");
         }
     }
 

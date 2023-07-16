@@ -9,7 +9,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Builder
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)

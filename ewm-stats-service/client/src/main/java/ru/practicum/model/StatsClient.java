@@ -1,25 +1,34 @@
 package ru.practicum.model;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.client.BaseClient;
 import ru.practicum.dto.StatsDtoRequest;
+import ru.practicum.dto.StatsDtoResponse;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 @Service
-@FieldDefaults(level = AccessLevel.PUBLIC)
+@PropertySource(value = "classpath:application.properties")
 public class StatsClient extends BaseClient {
+
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     @Autowired
-    StatsClient(@Value("${stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public StatsClient(@Value("${stats-service.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
@@ -28,21 +37,38 @@ public class StatsClient extends BaseClient {
         );
     }
 
-    ResponseEntity<Object> hit(StatsDtoRequest requestDto) {
-        return post("/hit", requestDto);
+    public ResponseEntity<Object> hit(HttpServletRequest request
+    ) {
+        StatsDtoRequest hitDto = new StatsDtoRequest();
+        hitDto.setApp((String) request.getAttribute("app_name"));
+        hitDto.setUri(request.getRequestURI());
+        hitDto.setIp(request.getRemoteAddr());
+        hitDto.setTimestamp(LocalDateTime.now());
+        return post("/hit", hitDto);
     }
 
-    ResponseEntity<Object> stats(String start,
-                                 String end,
-                                 List<String> uris,
-                                 Boolean unique) {
+
+    public List<StatsDtoResponse> stats(LocalDateTime start,
+                                        LocalDateTime end,
+                                        List<String> uris,
+                                        Boolean unique) {
         Map<String, Object> parameters = Map.of(
-                "start", start,
-                "end", end,
-                "uris", uris,
+                "start", timeFormatter(start),
+                "end", timeFormatter(end),
+                "uris", String.join(",", uris),
                 "unique", unique
         );
-        return get("/stats?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
+        if (end.isBefore(start)) {
+            throw new NumberFormatException("Дата старта должна быть раньше даты окончания");
+        }
+
+        ResponseEntity<Object> objects = get("/stats?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
+        return objectMapper.convertValue(objects.getBody(), new TypeReference<>() {
+        });
+    }
+
+    private String timeFormatter(LocalDateTime date) {
+        return date.format(FORMAT);
     }
 
 }
