@@ -2,6 +2,7 @@ package ru.practicum.event.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Formula;
 import ru.practicum.category.model.Category;
 import ru.practicum.event.enums.EventState;
 import ru.practicum.locations.model.Location;
@@ -17,6 +18,14 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedEntityGraph(
+        name = "event",
+        attributeNodes = {
+                @NamedAttributeNode(value = "category"),
+                @NamedAttributeNode(value = "initiator"),
+                @NamedAttributeNode(value = "location"),
+        }
+)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Event {
     @Id
@@ -26,8 +35,8 @@ public class Event {
     @Column(name = "annotation", length = 2000, nullable = false)
     String annotation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categories")
+    @ManyToOne
+    @JoinColumn(name = "categories", referencedColumnName = "id")
     Category category;
 
     @Column(name = "confirmed_request", nullable = false)
@@ -42,11 +51,11 @@ public class Event {
     @Column(name = "event_date", nullable = false, columnDefinition = "TIMESTAMP")
     LocalDateTime eventDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "initiator_id", nullable = false, referencedColumnName = "id")
     User initiator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "location_id", nullable = false)
     Location location;
 
@@ -71,4 +80,8 @@ public class Event {
 
     @Column
     Long views;
+
+    @Formula("(SELECT AVG(r.rate) FROM rates r WHERE r.event_id = id)")
+    Double rate;
+
 }

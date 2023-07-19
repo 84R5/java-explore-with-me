@@ -6,7 +6,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.Comment.dto.CommentDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.dto.NewEventDto;
@@ -16,6 +18,7 @@ import ru.practicum.request.dto.ParticipationRequestDto;
 import ru.practicum.request.model.EventRequestStatusUpdateRequest;
 import ru.practicum.request.model.EventRequestStatusUpdateResult;
 import ru.practicum.request.service.RequestService;
+import ru.practicum.util.ValidateManager;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -26,12 +29,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/{userId}/events")
 @RequiredArgsConstructor
+@Validated
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PrivateEventController {
 
     EventService eventService;
 
     RequestService requestService;
+
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -102,4 +107,20 @@ public class PrivateEventController {
 
         return updateResult;
     }
+
+    @PostMapping("/{eventId}/rating")
+    public ResponseEntity<Object> manageEstimate(
+            @RequestBody @Valid CommentDto commentDto,
+            @PathVariable Long userId,
+            @PathVariable Long eventId,
+            @RequestParam(name = "rate", required = false) Integer rate
+    ){
+        ValidateManager.checkRate(rate);
+
+        Object rating = eventService.manageEstimate(userId,eventId,rate,commentDto);
+        return ResponseEntity.status(HttpStatus.OK).body(rating);
+    }
+
+
+
 }

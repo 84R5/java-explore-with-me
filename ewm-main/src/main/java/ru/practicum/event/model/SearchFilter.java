@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.event.enums.EventSort;
 import ru.practicum.event.enums.EventState;
 
 import java.time.LocalDateTime;
@@ -20,9 +21,11 @@ public class SearchFilter {
     List<Long> categoryIds;
     LocalDateTime rangeStart;
     LocalDateTime rangeEnd;
-
     String text;
     Boolean paid;
     Boolean onlyAvailable;
+    List<Long> initiatorIds;
+    EventSort sort;
+
 
 }

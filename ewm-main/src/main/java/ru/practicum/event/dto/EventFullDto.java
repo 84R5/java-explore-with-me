@@ -58,4 +58,5 @@ public class EventFullDto {
     String title;
 
     Long views;
+    Double rate;
 }

@@ -32,7 +32,6 @@ public class RequestController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ParticipationRequestDto> create(
             @PathVariable Long userId,
             @RequestParam Long eventId) {

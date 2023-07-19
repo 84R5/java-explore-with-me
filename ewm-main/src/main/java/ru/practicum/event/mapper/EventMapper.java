@@ -19,7 +19,6 @@ public class EventMapper {
                 .annotation(request.getAnnotation())
                 .createdOn(LocalDateTime.now())
                 .description(request.getDescription())
-                .category(Category.builder().id(request.getCategory()).build())
                 .eventDate(request.getEventDate())
                 .location(LocationMapper.toLocation(request.getLocation()))
                 .publishedOn(!request.getRequestModeration() ? LocalDateTime.now() : null)
@@ -65,6 +64,7 @@ public class EventMapper {
                 .state(event.getState())
                 .title(event.getTitle())
                 .views(event.getViews())
+                .rate(event.getRate())
                 .build();
     }
 
@@ -80,6 +80,7 @@ public class EventMapper {
                 .paid(event.getPaid())
                 .title(event.getTitle())
                 .views(event.getViews())
+                .rate(event.getRate())
                 .build();
     }
 

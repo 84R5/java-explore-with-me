@@ -55,7 +55,7 @@ public class AdminEventController {
                 .build();
 
         log.debug("GET adminByFilter() filter:{}", filter);
-        List<EventFullDto> eventFullDtoList = eventService.searchEvents(filter, from, size);
+        List<EventFullDto> eventFullDtoList = eventService.searchEventsFromAdmin(filter, from, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(eventFullDtoList);
     }

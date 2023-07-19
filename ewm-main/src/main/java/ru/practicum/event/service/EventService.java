@@ -1,5 +1,6 @@
 package ru.practicum.event.service;
 
+import ru.practicum.Comment.dto.CommentDto;
 import ru.practicum.event.dto.*;
 import ru.practicum.event.enums.EventSort;
 import ru.practicum.event.model.SearchFilter;
@@ -17,10 +18,12 @@ public interface EventService {
 
     EventFullDto updateEventByAdmin(Long eventId, UpdateEventAdminRequest eventAdminRequest);
 
-    List<EventShortDto> adminFindAllByFilter(SearchFilter filter, EventSort eventSort, Integer from, Integer size);
+    List<EventShortDto> searchUsingFilterAndSorting(SearchFilter filter, EventSort eventSort, Integer from, Integer size);
 
-    List<EventFullDto> searchEvents(SearchFilter filter, Integer from, Integer size);
+    List<EventFullDto> searchEventsFromAdmin(SearchFilter filter, Integer from, Integer size);
 
     EventFullDto publicFindById(Long eventId);
+
+    Object manageEstimate(Long userId, Long eventId, Integer rate, CommentDto commentDto);
 
 }
