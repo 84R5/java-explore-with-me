@@ -47,11 +47,11 @@ public class ValidateManager {
         return (Class<T>) resolvableType.getGeneric(0).toClass();
     }
 
-    public static void checkRate(Integer rate){
-        if (rate == null){
+    public static void checkRate(Integer rate) {
+        if (rate == null) {
             return;
         }
-        if(rate >5 || rate < -5){
+        if (rate > 5 || rate < -5) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rate value, from -5 to +5");
         }
     }

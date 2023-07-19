@@ -8,7 +8,7 @@ import ru.practicum.rating.model.Rating;
 @UtilityClass
 public class RatingMapper {
 
-    public static Rating requestToRating(CombineRatingId id, Integer rate, Comment dto){
+    public static Rating requestToRating(CombineRatingId id, Integer rate, Comment dto) {
         return Rating.builder()
                 .id(id)
                 .rate(rate)

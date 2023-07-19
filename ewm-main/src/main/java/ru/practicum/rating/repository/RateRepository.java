@@ -6,7 +6,6 @@ import ru.practicum.rating.model.CombineRatingId;
 import ru.practicum.rating.model.Rating;
 
 
-
 @Repository
 public interface RateRepository extends JpaRepository<Rating, CombineRatingId> {
 

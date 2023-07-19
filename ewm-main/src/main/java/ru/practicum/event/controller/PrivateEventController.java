@@ -114,13 +114,12 @@ public class PrivateEventController {
             @PathVariable Long userId,
             @PathVariable Long eventId,
             @RequestParam(name = "rate", required = false) Integer rate
-    ){
+    ) {
         ValidateManager.checkRate(rate);
 
-        Object rating = eventService.manageEstimate(userId,eventId,rate,commentDto);
+        Object rating = eventService.manageEstimate(userId, eventId, rate, commentDto);
         return ResponseEntity.status(HttpStatus.OK).body(rating);
     }
-
 
 
 }

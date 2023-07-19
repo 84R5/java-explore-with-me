@@ -9,6 +9,14 @@ public enum EventSort {
     VIEWS,
     RATE;
 
+    public static EventSort by(String stateName) {
+        try {
+            return EventSort.valueOf(stateName);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Unknown state: " + stateName, e);
+        }
+    }
+
     public String getEventSort(EventSort sortVariant) {
         switch (sortVariant) {
             case VIEWS:
@@ -22,7 +30,6 @@ public enum EventSort {
         }
     }
 
-
     private String toLowerCamelCase() {
         String name = name();
         AtomicInteger index = new AtomicInteger();
@@ -34,14 +41,5 @@ public enum EventSort {
 
             return value.toLowerCase();
         }).collect(Collectors.joining());
-    }
-
-
-    public static EventSort by(String stateName) {
-        try {
-            return EventSort.valueOf(stateName);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Unknown state: " + stateName, e);
-        }
     }
 }

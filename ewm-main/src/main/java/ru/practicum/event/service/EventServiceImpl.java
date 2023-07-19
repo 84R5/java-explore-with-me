@@ -157,7 +157,7 @@ public class EventServiceImpl implements EventService {
         BooleanBuilder booleanBuilder = makeBuilder(filter);
         Page<Event> page = eventRepository
                 .findAll(booleanBuilder, PageCalculate.getPage(from, size, sort == null ?
-                        Sort.unsorted(): Sort.by(Sort.Direction.DESC, sort)));
+                        Sort.unsorted() : Sort.by(Sort.Direction.DESC, sort)));
 
         if (eventSort.equals(EventSort.RATE)) {
             return page.getContent().stream().map(EventMapper::toEventShortDto)
@@ -175,9 +175,9 @@ public class EventServiceImpl implements EventService {
         Page<Event> page = eventRepository.findAll(booleanBuilder, PageCalculate.getPage(from, size));
         setViews(page.getContent());
 
-            return page.getContent().stream().map(EventMapper::toEventFullDto)
-                    .sorted(Comparator.comparing(EventFullDto::getRate, Comparator.reverseOrder()))
-                    .collect(Collectors.toList());
+        return page.getContent().stream().map(EventMapper::toEventFullDto)
+                .sorted(Comparator.comparing(EventFullDto::getRate, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
 
     }
 
@@ -197,17 +197,17 @@ public class EventServiceImpl implements EventService {
     public Object manageEstimate(Long userId, Long eventId, Integer rate, CommentDto dto) {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
-        ValidateManager.checkId(eventRepository,eventId);
+        ValidateManager.checkId(eventRepository, eventId);
         Event event = eventRepository.findEventByIdAndState(eventId, PUBLISHED);
 
-        if(rate == null) {
+        if (rate == null) {
             ratingService.manageEstimate(user,
-                    event, 0,dto);
+                    event, 0, dto);
         }
 
         if (!userId.equals(event.getInitiator().getId()) &&
                 requestRepository.existsByRequesterIdAndEventIdAndStatus(userId, eventId, CONFIRMED)) {
-            return ratingService.manageEstimate(user,event,rate,dto);
+            return ratingService.manageEstimate(user, event, rate, dto);
         } else {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "The initiator cannot vote");
         }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @UtilityClass
 public class CommentMapper {
 
-    public static Comment commentRequestDtoToComment(CommentDto dto,Long userId){
+    public static Comment commentRequestDtoToComment(CommentDto dto, Long userId) {
 
         return Comment.builder()
                 .text(dto.getText())
