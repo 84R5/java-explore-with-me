@@ -184,9 +184,6 @@ public class EventServiceImpl implements EventService {
                     .collect(Collectors.toList());
         }
 
-
-
-
     }
 
     @Override
