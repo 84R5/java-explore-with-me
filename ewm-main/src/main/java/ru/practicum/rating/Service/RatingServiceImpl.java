@@ -32,16 +32,16 @@ public class RatingServiceImpl implements RatingService {
 
         Rating existRate = rateRepository.findByUserIdAndEventId(user.getId(), event.getId()).orElse(null);
 
-        if(rate == null){
+        if (rate == null) {
             assert existRate != null;
             rateRepository.delete(existRate);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Rating remove");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Rating remove");
         }
 
         Rating rating = RatingMapper
-                .requestToRating(user.getId(), event.getId(),rate, commentService.create(user.getId(), dto));
+                .requestToRating(user.getId(), event.getId(), rate, commentService.create(user.getId(), dto));
 
-        if (existRate != null){
+        if (existRate != null) {
             rateRepository.delete(existRate);
         }
 

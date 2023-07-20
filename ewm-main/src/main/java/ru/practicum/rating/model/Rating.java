@@ -4,7 +4,6 @@ import lombok.*;
 import ru.practicum.Comment.model.Comment;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "rates")
