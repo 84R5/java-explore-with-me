@@ -9,7 +9,6 @@ import ru.practicum.locations.model.Location;
 import ru.practicum.user.model.User;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,16 +18,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@NamedEntityGraph(
-        name = "event",
-        attributeNodes = {
-                @NamedAttributeNode(value = "category"),
-                @NamedAttributeNode(value = "initiator"),
-                @NamedAttributeNode(value = "location"),
-        }
-)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Event implements Serializable {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
@@ -52,11 +43,11 @@ public class Event implements Serializable {
     @Column(name = "event_date", nullable = false, columnDefinition = "TIMESTAMP")
     LocalDateTime eventDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "initiator_id", nullable = false, referencedColumnName = "id")
     User initiator;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", nullable = false)
     Location location;
 
