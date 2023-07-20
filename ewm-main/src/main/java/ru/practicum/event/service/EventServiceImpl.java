@@ -175,12 +175,12 @@ public class EventServiceImpl implements EventService {
         Page<Event> page = eventRepository.findAll(booleanBuilder, PageCalculate.getPage(from, size));
         setViews(page.getContent());
 
-        if(filter.getSort() != null){
+        if (filter.getSort() != null) {
             return page.getContent().stream().map(EventMapper::toEventFullDto)
                     .sorted(Comparator.comparing(EventFullDto::getRate, Comparator.reverseOrder()))
                     .collect(Collectors.toList());
         } else {
-            return  page.getContent().stream().map(EventMapper::toEventFullDto)
+            return page.getContent().stream().map(EventMapper::toEventFullDto)
                     .collect(Collectors.toList());
         }
 
