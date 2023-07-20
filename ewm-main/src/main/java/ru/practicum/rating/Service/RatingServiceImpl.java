@@ -12,7 +12,6 @@ import ru.practicum.Comment.dto.CommentDto;
 import ru.practicum.Comment.service.CommentService;
 import ru.practicum.event.model.Event;
 import ru.practicum.rating.mapper.RatingMapper;
-import ru.practicum.rating.model.CombineRatingId;
 import ru.practicum.rating.model.Rating;
 import ru.practicum.rating.repository.RateRepository;
 import ru.practicum.user.model.User;
@@ -30,13 +29,24 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public Object manageEstimate(User user, Event event, Integer rate, CommentDto dto) {
-        CombineRatingId id = CombineRatingId.builder().user(user).event(event).build();
 
-        Rating rating = rateRepository
-                .save(RatingMapper.requestToRating(id, rate, commentService.create(user.getId(), dto)
-                ));
+        Rating existRate = rateRepository.findByUserIdAndEventId(user.getId(), event.getId()).orElse(null);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(rating);
+        if(rate == null){
+            assert existRate != null;
+            rateRepository.delete(existRate);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Rating remove");
+        }
+
+        Rating rating = RatingMapper
+                .requestToRating(user.getId(), event.getId(),rate, commentService.create(user.getId(), dto));
+
+        if (existRate != null){
+            rateRepository.delete(existRate);
+        }
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(rateRepository.save(rating));
     }
 
 }

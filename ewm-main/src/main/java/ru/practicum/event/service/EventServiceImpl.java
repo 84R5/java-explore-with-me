@@ -173,7 +173,7 @@ public class EventServiceImpl implements EventService {
     public List<EventFullDto> searchEventsFromAdmin(SearchFilter filter, Integer from, Integer size) {
         BooleanBuilder booleanBuilder = makeBuilder(filter);
         Page<Event> page = eventRepository.findAll(booleanBuilder, PageCalculate.getPage(from, size));
-        setViews(page.getContent());
+        //setViews(page.getContent());
 
         return page.getContent().stream().map(EventMapper::toEventFullDto)
                 .sorted(Comparator.comparing(EventFullDto::getRate, Comparator.reverseOrder()))
@@ -189,7 +189,7 @@ public class EventServiceImpl implements EventService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found.");
         }
 
-        setViews(List.of(event));
+        //setViews(List.of(event));
         return EventMapper.toEventFullDto(event);
     }
 

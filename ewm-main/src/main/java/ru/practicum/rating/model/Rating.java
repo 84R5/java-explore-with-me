@@ -4,6 +4,7 @@ import lombok.*;
 import ru.practicum.Comment.model.Comment;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "rates")
@@ -14,8 +15,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Rating {
 
-    @EmbeddedId
-    private CombineRatingId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "event_id")
+    private Long eventId;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "rate")
     private Integer rate;
