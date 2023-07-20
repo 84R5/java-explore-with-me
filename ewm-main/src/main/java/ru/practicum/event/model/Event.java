@@ -9,6 +9,7 @@ import ru.practicum.locations.model.Location;
 import ru.practicum.user.model.User;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,7 +28,7 @@ import java.time.LocalDateTime;
         }
 )
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Event {
+public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
