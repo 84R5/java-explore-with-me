@@ -5,10 +5,7 @@ import lombok.experimental.FieldDefaults;
 import ru.practicum.event.model.Event;
 import ru.practicum.user.model.User;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Setter
@@ -20,11 +17,13 @@ import java.io.Serializable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CombineRatingId implements Serializable {
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    //@ManyToOne(cascade = {CascadeType.ALL})
+    //@JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
     User user;
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    //@ManyToOne(cascade = {CascadeType.ALL})
+    //@JoinColumn(name = "event_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
     Event event;
 
 }
