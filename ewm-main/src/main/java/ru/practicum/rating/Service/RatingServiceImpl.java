@@ -46,7 +46,7 @@ public class RatingServiceImpl implements RatingService {
                 .requestToRating(user.getId(), event.getId(), event.getInitiator().getId(), rate, commentService.create(user.getId(), dto));
 
         rating = rateRepository.save(rating);
-
+        setRate(event);
         return ResponseEntity.status(HttpStatus.CREATED).body(RatingMapper.ratingToRatingDto(rating));
     }
 
