@@ -13,10 +13,10 @@ public interface RateRepository extends JpaRepository<Rating, Long> {
 
     Optional<Rating> findByUserIdAndEventId(Long userId, Long eventId);
 
-    @Query(value = "SELECT AVG(r.rate) FROM rates r WHERE r.event_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT AVG(r.rate) FROM rates r WHERE r.event_id = ?1" , nativeQuery = true)
     Double getAvgRateByEventId(Long eventID);
 
-    @Query(value = "SELECT AVG(r.rate) FROM rates r WHERE r.initiator_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT AVG(r.rate) FROM rates r WHERE r.initiator_id = ?1" , nativeQuery = true)
     Double getAvgRateByEventInitiatorId(Long initiatorId);
 
 }

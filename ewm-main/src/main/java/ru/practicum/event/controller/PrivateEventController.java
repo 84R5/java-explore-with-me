@@ -14,6 +14,7 @@ import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.dto.NewEventDto;
 import ru.practicum.event.dto.UpdateEventUserRequest;
 import ru.practicum.event.service.EventService;
+import ru.practicum.rating.dto.RatingDto;
 import ru.practicum.request.dto.ParticipationRequestDto;
 import ru.practicum.request.model.EventRequestStatusUpdateRequest;
 import ru.practicum.request.model.EventRequestStatusUpdateResult;
@@ -109,7 +110,7 @@ public class PrivateEventController {
     }
 
     @PostMapping("/{eventId}/rating")
-    public ResponseEntity<Object> manageEstimate(
+    public ResponseEntity<RatingDto> manageRating(
             @RequestBody @Valid CommentDto commentDto,
             @PathVariable Long userId,
             @PathVariable Long eventId,
@@ -117,8 +118,7 @@ public class PrivateEventController {
     ) {
         ValidateManager.checkRate(rate);
 
-        Object rating = eventService.manageEstimate(userId, eventId, rate, commentDto);
-        return ResponseEntity.status(HttpStatus.OK).body(rating);
+        return eventService.manageEstimate(userId, eventId, rate, commentDto);
     }
 
 
