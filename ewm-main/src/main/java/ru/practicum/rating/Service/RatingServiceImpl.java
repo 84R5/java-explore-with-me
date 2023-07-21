@@ -39,7 +39,10 @@ public class RatingServiceImpl implements RatingService {
 
         if (rate == null) {
             setRate(event);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
+            return ResponseEntity.status(HttpStatus.OK).body(RatingMapper.ratingToRatingDto(rateRepository
+                    .save(RatingMapper.requestToRating(user.getId(), event.getId(), event.getInitiator()
+                            .getId(), null,null))));
         }
 
         Rating rating = RatingMapper
