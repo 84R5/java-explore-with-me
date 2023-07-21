@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RatingDto {
 
-    @NotNull
+
     Long userId;
     @NotNull
     Long eventId;

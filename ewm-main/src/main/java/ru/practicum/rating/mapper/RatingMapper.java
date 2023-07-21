@@ -8,7 +8,7 @@ import ru.practicum.rating.model.Rating;
 @UtilityClass
 public class RatingMapper {
 
-    public static Rating requestToRating(Long userId,Long eventId,Long initiatorId,  Integer rate, Comment dto) {
+    public static Rating requestToRating(Long userId, Long eventId, Long initiatorId, Integer rate, Comment dto) {
         return Rating.builder()
                 .eventId(eventId)
                 .userId(userId)
@@ -18,7 +18,7 @@ public class RatingMapper {
                 .build();
     }
 
-    public static RatingDto ratingToRatingDto(Rating rating){
+    public static RatingDto ratingToRatingDto(Rating rating) {
         return RatingDto.builder()
                 .userId(rating.getUserId())
                 .eventId(rating.getEventId())
