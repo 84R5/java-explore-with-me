@@ -24,6 +24,9 @@ public class Rating {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "initiator_id")
+    private Long initiatorId;
+
     @Column(name = "rate")
     private Integer rate;
 

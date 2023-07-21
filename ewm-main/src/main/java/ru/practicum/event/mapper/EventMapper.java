@@ -32,20 +32,6 @@ public class EventMapper {
     }
 
 
-    public static Event toEvent(NewEventDto newEventDto) {
-        return Event.builder()
-                .id(newEventDto.getId())
-                .annotation(newEventDto.getAnnotation())
-                .description(newEventDto.getDescription())
-                .eventDate(newEventDto.getEventDate())
-                .location(LocationMapper.toLocation(newEventDto.getLocation()))
-                .paid(newEventDto.getPaid())
-                .participantLimit(newEventDto.getParticipantLimit())
-                .requestModeration(newEventDto.getRequestModeration())
-                .title(newEventDto.getTitle())
-                .build();
-    }
-
     public static EventFullDto toEventFullDto(Event event) {
         return EventFullDto.builder()
                 .id(event.getId())
@@ -114,6 +100,7 @@ public class EventMapper {
                 .annotation(dto.getAnnotation() != null ?
                         dto.getAnnotation() : e.getAnnotation())
                 .views(e.getViews())
+                .rate(e.getRate())
                 .build();
     }
 
@@ -145,6 +132,7 @@ public class EventMapper {
                 .annotation(dto.getAnnotation() != null ?
                         dto.getAnnotation() : e.getAnnotation())
                 .views(e.getViews())
+                .rate(e.getRate())
                 .build();
     }
 

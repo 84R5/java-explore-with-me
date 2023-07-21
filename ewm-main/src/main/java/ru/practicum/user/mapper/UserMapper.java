@@ -9,11 +9,11 @@ import ru.practicum.user.model.User;
 @UtilityClass
 public class UserMapper {
     public static User toUser(NewUserRequest newUserRequest) {
-        return new User(
-                newUserRequest.getId(),
-                newUserRequest.getName(),
-                newUserRequest.getEmail()
-        );
+        return User.builder()
+                .id(newUserRequest.getId())
+                .name(newUserRequest.getName())
+                .email(newUserRequest.getEmail())
+                .build();
     }
 
     public static UserShortDto toUserShortDto(User user) {

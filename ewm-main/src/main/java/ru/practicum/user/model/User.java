@@ -29,4 +29,7 @@ public class User {
     @Email(message = "Invalid email format")
     @Column(nullable = false, unique = true)
     String email;
+
+    @Column(name = "rate")
+    Double rate;
 }

@@ -27,5 +27,4 @@ public class SearchFilter {
     List<Long> initiatorIds;
     EventSort sort;
 
-
 }

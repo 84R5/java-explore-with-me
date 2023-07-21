@@ -6,6 +6,6 @@ import ru.practicum.user.model.User;
 
 public interface RatingService {
 
-    Object manageEstimate(User user, Event event, Integer rate, CommentDto dto);
+    Object manageRating(User user, Event event, Integer rate, CommentDto dto);
 
 }

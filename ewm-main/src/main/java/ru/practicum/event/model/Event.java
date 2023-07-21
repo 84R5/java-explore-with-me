@@ -73,7 +73,7 @@ public class Event {
     @Column
     Long views;
 
-    @Formula("(SELECT AVG(r.rate) FROM rates r WHERE r.event_id = id)")
+    @Column
     Double rate;
 
 }
