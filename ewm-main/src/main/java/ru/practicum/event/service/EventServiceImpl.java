@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,6 +31,7 @@ import ru.practicum.locations.model.Location;
 import ru.practicum.locations.repository.LocationRepository;
 import ru.practicum.model.StatsClient;
 import ru.practicum.rating.Service.RatingService;
+import ru.practicum.rating.dto.RatingDto;
 import ru.practicum.request.repository.RequestRepository;
 import ru.practicum.user.model.User;
 import ru.practicum.user.repository.UserRepository;
@@ -199,7 +201,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Object manageEstimate(Long userId, Long eventId, Integer rate, CommentDto dto) {
+    public ResponseEntity<RatingDto> manageEstimate(Long userId, Long eventId, Integer rate, CommentDto dto) {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
         ValidateManager.checkId(eventRepository, eventId);
