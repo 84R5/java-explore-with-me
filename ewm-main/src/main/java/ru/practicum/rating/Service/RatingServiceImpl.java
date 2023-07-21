@@ -43,20 +43,19 @@ public class RatingServiceImpl implements RatingService {
         }
 
         Rating rating = RatingMapper
-                .requestToRating(user.getId(), event.getId(), event.getInitiator().getId(),rate, commentService.create(user.getId(), dto));
+                .requestToRating(user.getId(), event.getId(), event.getInitiator().getId(), rate, commentService.create(user.getId(), dto));
 
         rating = rateRepository.save(rating);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(RatingMapper.ratingToRatingDto(rating));
     }
 
-    private void setRate(Event event){
+    private void setRate(Event event) {
         event.setRate(rateRepository.getAvgRateByEventId(event.getId()));
         event.getInitiator().setRate(rateRepository.getAvgRateByEventInitiatorId(event.getInitiator().getId()));
         userRepository.save(event.getInitiator());
         eventRepository.save(event);
     }
-
 
 
 }
