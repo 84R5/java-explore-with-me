@@ -209,7 +209,7 @@ public class EventServiceImpl implements EventService {
 
         if (rate == null) {
             ratingService.manageRating(user,
-                    event, 0, dto);
+                    event, null, dto);
         }
 
         if (!userId.equals(event.getInitiator().getId()) &&
