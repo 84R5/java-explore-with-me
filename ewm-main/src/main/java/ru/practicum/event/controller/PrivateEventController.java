@@ -96,10 +96,18 @@ public class PrivateEventController {
             @PathVariable Long userId,
             @PathVariable Long eventId,
             @RequestBody EventRequestStatusUpdateRequest dto) {
-
+        
         log.debug("PATCH updateRequestState() with initiatorId: {}, eventId: {}, dto: {}", userId, eventId, dto);
+        try
+        {
+            Thread.sleep(300);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
         EventRequestStatusUpdateResult updateResult = requestService.updateStatusRequests(userId, eventId, dto);
-
+        
         return updateResult;
     }
 }
