@@ -166,7 +166,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventFullDto> searchEventsFromAdmin(SearchFilter filter, Integer from, Integer size) {
 
-        String sort = filter.getSort() != null? filter.getSort().getEventSort(filter.getSort()) : null;
+        String sort = filter.getSort() != null ? filter.getSort().getEventSort(filter.getSort()) : null;
         BooleanBuilder booleanBuilder = makeBuilder(filter);
         Page<Event> page = eventRepository.findAll(booleanBuilder, PageCalculate.getPage(from, size, sort == null ?
                 Sort.unsorted() : Sort.by(Sort.Direction.DESC, sort)));

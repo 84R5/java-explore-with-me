@@ -124,7 +124,7 @@ public class PrivateEventController {
         ValidateManager.checkRate(rate);
 
         RatingDto rating = eventService.manageEstimate(userId, eventId, rate, commentDto);
-        if(rate == null){
+        if (rate == null) {
             return ResponseEntity.status(HttpStatus.OK).body(rating);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(rating);
