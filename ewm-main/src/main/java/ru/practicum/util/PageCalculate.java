@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @UtilityClass
-public class PageCalc {
+public class PageCalculate {
 
     public Pageable getPage(Integer from, Integer size) {
         if (from != null && size != null) {
@@ -17,9 +17,11 @@ public class PageCalc {
     }
 
     public Pageable getPage(Integer from, Integer size, Sort sort) {
+
         if (from != null && size != null) {
             int pageNumber = (int) Math.ceil((double) from / size);
-            return PageRequest.of(pageNumber, size, sort);
+            return PageRequest.of(pageNumber, size, sort == null ?
+                    Sort.unsorted() : sort);
         }
         return Pageable.unpaged();
     }

@@ -5,13 +5,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.core.ResolvableType;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.error.NotFoundException;
 
 import javax.validation.constraints.NotNull;
 
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ValidMgr {
+public class ValidateManager {
 
     public static final String NOT_FOUND_WITH_ID = "not found %s with id=%s";
 
@@ -43,6 +45,15 @@ public class ValidMgr {
     private static <T, I> Class<T> getTClass(CrudRepository<T, I> storage) {
         ResolvableType resolvableType = ResolvableType.forClass(storage.getClass()).as(CrudRepository.class);
         return (Class<T>) resolvableType.getGeneric(0).toClass();
+    }
+
+    public static void checkRate(Integer rate) {
+        if (rate == null) {
+            return;
+        }
+        if (rate > 5 || rate < -5) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rate value, from -5 to +5");
+        }
     }
 
 }

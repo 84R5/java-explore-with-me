@@ -15,5 +15,6 @@ public class UserDtoResponse {
     Long id;
     String name;
     String email;
+    String rate;
 
 }

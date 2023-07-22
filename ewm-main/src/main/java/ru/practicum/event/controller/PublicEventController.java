@@ -44,16 +44,14 @@ public class PublicEventController {
             @RequestParam(value = "rangeEnd", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
             @RequestParam(value = "onlyAvailable", defaultValue = "false") Boolean onlyAvailable,
-            @RequestParam(value = "sort", defaultValue = "EVENT_DATE") String sort,
-            @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
-            @RequestParam(value = "size", defaultValue = "10") @Positive Integer size,
+            @RequestParam(value = "sort", required = false, defaultValue = "EVENT_DATE") EventSort sort,
+            @RequestParam(value = "from", required = false, defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(value = "size", required = false, defaultValue = "10") @Positive Integer size,
             HttpServletRequest request) {
 
         if (rangeEnd != null && rangeStart != null && rangeEnd.isBefore(rangeStart)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "rangeEnd cannot be earlier than the rangeStart");
         }
-
-        sendToStats(request);
 
         SearchFilter filter = SearchFilter.builder()
                 .categoryIds(categoryIds)
@@ -67,10 +65,8 @@ public class PublicEventController {
         log.debug("GET adminFindAllByFilter() with param: {} ", filter);
         request.setAttribute("app_name", "main application");
 
-        EventSort eventSort = sort != null ?
-                EventSort.by(sort) : EventSort.EVENT_DATE;
         sendToStats(request);
-        List<EventShortDto> eventShortDtoList = eventService.adminFindAllByFilter(filter, eventSort, from, size);
+        List<EventShortDto> eventShortDtoList = eventService.searchUsingFilterAndSorting(filter, sort, from, size);
         request.setAttribute("app_name", "main application");
 
         return ResponseEntity.status(HttpStatus.OK).body(eventShortDtoList);
@@ -98,4 +94,5 @@ public class PublicEventController {
             e.printStackTrace();
         }
     }
+
 }

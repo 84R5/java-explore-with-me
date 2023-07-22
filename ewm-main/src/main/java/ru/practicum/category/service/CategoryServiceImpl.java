@@ -13,8 +13,8 @@ import ru.practicum.category.dto.CategoryDtoResponse;
 import ru.practicum.category.mapper.CategoryMapper;
 import ru.practicum.category.model.Category;
 import ru.practicum.category.repository.CategoryRepository;
-import ru.practicum.util.PageCalc;
-import ru.practicum.util.ValidMgr;
+import ru.practicum.util.PageCalculate;
+import ru.practicum.util.ValidateManager;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements ru.practicum.category.service.Catego
 
     @Override
     public List<CategoryDtoResponse> findAll(Integer from, Integer size) {
-        return categoryRepository.findAll(PageCalc.getPage(from, size))
+        return categoryRepository.findAll(PageCalculate.getPage(from, size))
                 .map(CategoryMapper::categoryToCategoryDtoResponse).getContent();
     }
 
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements ru.practicum.category.service.Catego
 
     @Override
     public void remove(Long catId) {
-        ValidMgr.checkId(categoryRepository, catId);
+        ValidateManager.checkId(categoryRepository, catId);
         categoryRepository.deleteById(catId);
     }
 

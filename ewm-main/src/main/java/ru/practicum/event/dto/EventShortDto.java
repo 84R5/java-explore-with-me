@@ -33,5 +33,6 @@ public class EventShortDto {
     @NotBlank
     String title;
     Long views;
+    Double rate;
 
 }

@@ -6,16 +6,20 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.Comment.dto.CommentDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.dto.NewEventDto;
 import ru.practicum.event.dto.UpdateEventUserRequest;
 import ru.practicum.event.service.EventService;
+import ru.practicum.rating.dto.RatingDto;
 import ru.practicum.request.dto.ParticipationRequestDto;
 import ru.practicum.request.model.EventRequestStatusUpdateRequest;
 import ru.practicum.request.model.EventRequestStatusUpdateResult;
 import ru.practicum.request.service.RequestService;
+import ru.practicum.util.ValidateManager;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -26,12 +30,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/{userId}/events")
 @RequiredArgsConstructor
+@Validated
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PrivateEventController {
 
     EventService eventService;
 
     RequestService requestService;
+
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -96,18 +102,32 @@ public class PrivateEventController {
             @PathVariable Long userId,
             @PathVariable Long eventId,
             @RequestBody EventRequestStatusUpdateRequest dto) {
-        
-        log.debug("PATCH updateRequestState() with initiatorId: {}, eventId: {}, dto: {}", userId, eventId, dto);
-        try
-        {
+        try {
             Thread.sleep(300);
-        }
-        catch(InterruptedException ex)
-        {
+        } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
+
+        log.debug("PATCH updateRequestState() with initiatorId: {}, eventId: {}, dto: {}", userId, eventId, dto);
         EventRequestStatusUpdateResult updateResult = requestService.updateStatusRequests(userId, eventId, dto);
-        
+
         return updateResult;
     }
+
+    @PostMapping("/{eventId}/rating")
+    public ResponseEntity<RatingDto> manageRating(
+            @RequestBody(required = false) @Valid CommentDto commentDto,
+            @PathVariable Long userId,
+            @PathVariable Long eventId,
+            @RequestParam(name = "rate", required = false) Integer rate
+    ) {
+        ValidateManager.checkRate(rate);
+
+        RatingDto rating = eventService.manageEstimate(userId, eventId, rate, commentDto);
+        if (rate == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(rating);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(rating);
+    }
+
 }

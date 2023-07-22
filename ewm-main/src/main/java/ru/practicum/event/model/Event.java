@@ -26,8 +26,8 @@ public class Event {
     @Column(name = "annotation", length = 2000, nullable = false)
     String annotation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categories")
+    @ManyToOne
+    @JoinColumn(name = "categories", referencedColumnName = "id")
     Category category;
 
     @Column(name = "confirmed_request", nullable = false)
@@ -43,7 +43,7 @@ public class Event {
     LocalDateTime eventDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator_id", nullable = false)
+    @JoinColumn(name = "initiator_id", nullable = false, referencedColumnName = "id")
     User initiator;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,4 +71,8 @@ public class Event {
 
     @Column
     Long views;
+
+    @Column
+    Double rate;
+
 }

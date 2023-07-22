@@ -19,7 +19,6 @@ public class EventMapper {
                 .annotation(request.getAnnotation())
                 .createdOn(LocalDateTime.now())
                 .description(request.getDescription())
-                .category(Category.builder().id(request.getCategory()).build())
                 .eventDate(request.getEventDate())
                 .location(LocationMapper.toLocation(request.getLocation()))
                 .publishedOn(!request.getRequestModeration() ? LocalDateTime.now() : null)
@@ -32,20 +31,6 @@ public class EventMapper {
                 .build();
     }
 
-
-    public static Event toEvent(NewEventDto newEventDto) {
-        return Event.builder()
-                .id(newEventDto.getId())
-                .annotation(newEventDto.getAnnotation())
-                .description(newEventDto.getDescription())
-                .eventDate(newEventDto.getEventDate())
-                .location(LocationMapper.toLocation(newEventDto.getLocation()))
-                .paid(newEventDto.getPaid())
-                .participantLimit(newEventDto.getParticipantLimit())
-                .requestModeration(newEventDto.getRequestModeration())
-                .title(newEventDto.getTitle())
-                .build();
-    }
 
     public static EventFullDto toEventFullDto(Event event) {
         return EventFullDto.builder()
@@ -65,6 +50,7 @@ public class EventMapper {
                 .state(event.getState())
                 .title(event.getTitle())
                 .views(event.getViews())
+                .rate(event.getRate())
                 .build();
     }
 
@@ -80,6 +66,7 @@ public class EventMapper {
                 .paid(event.getPaid())
                 .title(event.getTitle())
                 .views(event.getViews())
+                .rate(event.getRate())
                 .build();
     }
 
@@ -113,6 +100,7 @@ public class EventMapper {
                 .annotation(dto.getAnnotation() != null ?
                         dto.getAnnotation() : e.getAnnotation())
                 .views(e.getViews())
+                .rate(e.getRate())
                 .build();
     }
 
@@ -144,6 +132,7 @@ public class EventMapper {
                 .annotation(dto.getAnnotation() != null ?
                         dto.getAnnotation() : e.getAnnotation())
                 .views(e.getViews())
+                .rate(e.getRate())
                 .build();
     }
 

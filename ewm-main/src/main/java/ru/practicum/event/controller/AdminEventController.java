@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.UpdateEventAdminRequest;
+import ru.practicum.event.enums.EventSort;
 import ru.practicum.event.enums.EventState;
 import ru.practicum.event.model.SearchFilter;
 import ru.practicum.event.service.EventService;
@@ -40,7 +41,8 @@ public class AdminEventController {
             @RequestParam(value = "rangeEnd", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
             @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
-            @RequestParam(value = "size", defaultValue = "10") @Positive Integer size) {
+            @RequestParam(value = "size", defaultValue = "10") @Positive Integer size,
+            @RequestParam(value = "sort", required = false) EventSort sort) {
 
         if (rangeEnd != null && rangeStart != null && rangeEnd.isBefore(rangeStart)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "rangeEnd cannot be earlier than the rangeStart");
@@ -52,10 +54,11 @@ public class AdminEventController {
                 .categoryIds(categoryIds)
                 .rangeStart(rangeStart)
                 .rangeEnd(rangeEnd)
+                .sort(sort)
                 .build();
 
         log.debug("GET adminByFilter() filter:{}", filter);
-        List<EventFullDto> eventFullDtoList = eventService.searchEvents(filter, from, size);
+        List<EventFullDto> eventFullDtoList = eventService.searchEventsFromAdmin(filter, from, size);
 
         return ResponseEntity.status(HttpStatus.OK).body(eventFullDtoList);
     }
