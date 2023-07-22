@@ -138,7 +138,7 @@
 													"    pm.expect(source.description).equal(target.description, 'Описание события должно соответствовать искомому событию');\r",
 													"    pm.expect(source.title).equal(target.title, 'Название события должно соответствовать искомому событию');\r",
 													"    pm.expect(source.participantLimit.toString()).equal(target.participantLimit.toString(), 'Число участников события должно соответствовать искомому событию');\r",
-													"    pm.expect(source.rate).equal(target.rate), 'Число участников события должно соответствовать искомому событию');\r",
+													"    pm.expect(4).equal(target.rate, 'Неверный подсчёт рейтинга');\r",
 													"});"
 												],
 												"type": "text/javascript"
