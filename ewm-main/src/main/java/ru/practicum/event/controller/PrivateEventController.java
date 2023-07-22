@@ -116,14 +116,18 @@ public class PrivateEventController {
 
     @PostMapping("/{eventId}/rating")
     public ResponseEntity<RatingDto> manageRating(
-            @RequestBody @Valid CommentDto commentDto,
+            @RequestBody(required = false) @Valid CommentDto commentDto,
             @PathVariable Long userId,
             @PathVariable Long eventId,
             @RequestParam(name = "rate", required = false) Integer rate
     ) {
         ValidateManager.checkRate(rate);
 
-        return eventService.manageEstimate(userId, eventId, rate, commentDto);
+        RatingDto rating = eventService.manageEstimate(userId, eventId, rate, commentDto);
+        if(rate == null){
+            return ResponseEntity.status(HttpStatus.OK).body(rating);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(rating);
     }
 
 }

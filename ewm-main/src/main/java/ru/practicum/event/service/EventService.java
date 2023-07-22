@@ -1,6 +1,5 @@
 package ru.practicum.event.service;
 
-import org.springframework.http.ResponseEntity;
 import ru.practicum.Comment.dto.CommentDto;
 import ru.practicum.event.dto.*;
 import ru.practicum.event.enums.EventSort;
@@ -26,6 +25,6 @@ public interface EventService {
 
     EventFullDto publicFindById(Long eventId);
 
-    ResponseEntity<RatingDto> manageEstimate(Long userId, Long eventId, Integer rate, CommentDto commentDto);
+    RatingDto manageEstimate(Long userId, Long eventId, Integer rate, CommentDto commentDto);
 
 }

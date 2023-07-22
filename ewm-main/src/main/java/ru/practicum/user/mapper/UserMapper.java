@@ -28,6 +28,7 @@ public class UserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
+                .rate(user.getRate() != null ? user.getRate().toString() : "No rating")
                 .build();
     }
 

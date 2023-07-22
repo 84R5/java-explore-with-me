@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,7 +39,6 @@ import ru.practicum.util.ValidateManager;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -161,31 +159,21 @@ public class EventServiceImpl implements EventService {
                 .findAll(booleanBuilder, PageCalculate.getPage(from, size, sort == null ?
                         Sort.unsorted() : Sort.by(Sort.Direction.DESC, sort)));
 
-        if (eventSort.equals(EventSort.RATE)) {
-            return page.getContent().stream().map(EventMapper::toEventShortDto)
-                    .sorted(Comparator.comparing(EventShortDto::getRate, Comparator.reverseOrder()))
-                    .collect(Collectors.toList());
-        }
-
         return page.getContent().stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
     }
 
 
     @Override
     public List<EventFullDto> searchEventsFromAdmin(SearchFilter filter, Integer from, Integer size) {
+
+        String sort = filter.getSort() != null? filter.getSort().getEventSort(filter.getSort()) : null;
         BooleanBuilder booleanBuilder = makeBuilder(filter);
-        Page<Event> page = eventRepository.findAll(booleanBuilder, PageCalculate.getPage(from, size));
+        Page<Event> page = eventRepository.findAll(booleanBuilder, PageCalculate.getPage(from, size, sort == null ?
+                Sort.unsorted() : Sort.by(Sort.Direction.DESC, sort)));
+
         setViews(page.getContent());
 
-        if (filter.getSort() != null) {
-            return page.getContent().stream().map(EventMapper::toEventFullDto)
-                    .sorted(Comparator.comparing(EventFullDto::getRate, Comparator.reverseOrder()))
-                    .collect(Collectors.toList());
-        } else {
-            return page.getContent().stream().map(EventMapper::toEventFullDto)
-                    .collect(Collectors.toList());
-        }
-
+        return page.getContent().stream().map(EventMapper::toEventFullDto).collect(Collectors.toList());
     }
 
     @Override
@@ -197,11 +185,12 @@ public class EventServiceImpl implements EventService {
         }
 
         setViews(List.of(event));
+
         return EventMapper.toEventFullDto(event);
     }
 
     @Override
-    public ResponseEntity<RatingDto> manageEstimate(Long userId, Long eventId, Integer rate, CommentDto dto) {
+    public RatingDto manageEstimate(Long userId, Long eventId, Integer rate, CommentDto dto) {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
         ValidateManager.checkId(eventRepository, eventId);

@@ -4,8 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.Comment.dto.CommentDto;
@@ -33,16 +31,16 @@ public class RatingServiceImpl implements RatingService {
     CommentService commentService;
 
     @Override
-    public ResponseEntity<RatingDto> manageRating(User user, Event event, Integer rate, CommentDto dto) {
+    public RatingDto manageRating(User user, Event event, Integer rate, CommentDto dto) {
 
         rateRepository.findByUserIdAndEventId(user.getId(), event.getId()).ifPresent(rateRepository::delete);
 
         if (rate == null) {
             setRate(event);
 
-            return ResponseEntity.status(HttpStatus.OK).body(RatingMapper.ratingToRatingDto(rateRepository
+            return RatingMapper.ratingToRatingDto(rateRepository
                     .save(RatingMapper.requestToRating(user.getId(), event.getId(), event.getInitiator()
-                            .getId(), null,null))));
+                            .getId(), null,null)));
         }
 
         Rating rating = RatingMapper
@@ -51,7 +49,7 @@ public class RatingServiceImpl implements RatingService {
 
         rating = rateRepository.save(rating);
         setRate(event);
-        return ResponseEntity.status(HttpStatus.CREATED).body(RatingMapper.ratingToRatingDto(rating));
+        return RatingMapper.ratingToRatingDto(rating);
     }
 
     private void setRate(Event event) {
